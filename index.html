@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>显化扭蛋机 · 把今天的祝福扭出来</title>
+  <meta name="description" content="投一枚心愿币,转动旋钮,随机抽出一枚祝福胶囊——灵感、勇气、好运、能量、心愿、快乐,总有一颗正合你心意。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='24' r='20' fill='%23ffd166'/%3E%3Ccircle cx='32' cy='44' r='20' fill='%238f7bff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="scene">
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+    <div id="stars"></div>
+    <div id="sparkles"></div>
+
+    <header class="hero">
+      <p class="hero-eyebrow">Manifestation Gacha · 心愿显化所</p>
+      <h1 class="hero-title">显化扭蛋机</h1>
+      <p class="hero-sub">投一枚心愿币,转动旋钮,让今天的祝福滚落掌心 ✨</p>
+    </header>
+
+    <main class="stage">
+      <!-- ============ 扭蛋机本体 ============ -->
+      <section class="machine" id="machine" aria-label="显化扭蛋机">
+        <div class="dome-wrap">
+          <div class="dome" id="dome">
+            <div class="dome-caps" id="domeCaps"></div>
+            <div class="dome-shine"></div>
+            <div class="dome-glass"></div>
+          </div>
+          <div class="dome-ring" aria-hidden="true"></div>
+        </div>
+
+        <div class="m-body">
+          <div class="m-screen">
+            <span class="m-led" aria-hidden="true"></span>
+            <span class="m-text" id="screenText" aria-live="polite">正在开机…</span>
+            <span class="cursor" aria-hidden="true">_</span>
+          </div>
+
+          <div class="m-panel">
+            <div class="coin-zone">
+              <div class="coin-slot" aria-hidden="true"></div>
+              <span class="slot-label">Coin · 心愿币</span>
+              <div class="coin" id="coin" aria-hidden="true">★</div>
+            </div>
+            <div class="knob-zone">
+              <button class="knob" id="knob" aria-label="转动旋钮,扭出祝福胶囊" disabled>
+                <span class="knob-arrow" aria-hidden="true">▶</span>
+              </button>
+              <span class="knob-label">Turn · 转动</span>
+            </div>
+          </div>
+
+          <div class="m-outlet" id="outlet">
+            <div class="outlet-mouth" aria-hidden="true"></div>
+            <div class="outlet-flap" aria-hidden="true"></div>
+            <span class="outlet-label">Outlet · 出货口</span>
+          </div>
+        </div>
+
+        <div class="m-feet" aria-hidden="true"><span></span><span></span></div>
+
+        <div class="tray">
+          <button class="dropped" id="droppedCapsule" hidden aria-label="点击打开祝福胶囊">
+            <span class="cap-half cap-top"></span>
+            <span class="cap-half cap-bottom"></span>
+          </button>
+          <p class="tap-hint" id="tapHint" hidden>✦ 点击胶囊 · 打开祝福 ✦</p>
+          <div class="tray-shelf" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- ============ 侧边信息与操作 ============ -->
+      <aside class="side-panel">
+        <div class="legend" id="legend"></div>
+        <p class="collection">已显化 <b id="collectCount">0</b> / <span id="collectTotal">18</span> 种祝福</p>
+        <div class="action-buttons">
+          <button class="btn btn-coin" id="btnCoin">🪙 投入心愿币</button>
+          <button class="btn btn-turn" id="btnTurn" disabled>🌀 转动扭蛋</button>
+        </div>
+        <p class="disclaimer">「显化」在这里是给你的一份情绪价值和小小仪式感,不构成任何现实结果的承诺。日子怎么过,永远由你自己决定 :)</p>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <button class="chip" id="btnSound" aria-pressed="true">🔊 音效开</button>
+      <span class="footer-note">made with ✦ · 愿你今天顺利</span>
+    </footer>
+  </div>
+
+  <!-- ============ 祝福卡片弹层 ============ -->
+  <div class="overlay" id="overlay" hidden>
+    <div class="burst" aria-hidden="true"></div>
+    <article class="card" id="card">
+      <button class="card-close" id="cardClose" aria-label="关闭">×</button>
+      <div class="card-badge" id="cardBadge">好运胶囊</div>
+      <h2 class="card-name" id="cardName">好运显影</h2>
+      <div class="card-star" aria-hidden="true">✦ ✦ ✦</div>
+      <p class="card-desc" id="cardDesc">你会更容易看见机会</p>
+      <blockquote class="card-quote" id="cardQuote">机会就藏在日常的缝隙里。</blockquote>
+      <div class="card-actions">
+        <button class="btn btn-copy" id="btnCopy">📋 复制祝福</button>
+        <button class="btn btn-again" id="btnAgain">🎲 再抽一次</button>
+      </div>
+      <p class="card-fine">为你显化 · 只负责让你心里亮一下 ✨</p>
+    </article>
+  </div>
+
+  <div class="toast" id="toast">已复制祝福 ✨</div>
+
+  <noscript><p style="text-align:center;padding:20px;">这个扭蛋机需要开启 JavaScript 才能转动哦。</p></noscript>
+  <script src="script.js"></script>
+</body>
+</html>
